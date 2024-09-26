@@ -8,27 +8,35 @@ public class NauJugador : MonoBehaviour
     private float vel;
     private Vector2 minPantalla;
     private Vector2 maxPantalla;
+
+
+    [SerializeField] private GameObject prefabProjectil;
+
     // Start es llamado una vez, al inicio del juego
     void Start()
     {
         // Inicializamos la velocidad de la nave a 8
         vel = 8;
-        minPantalla = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)) ;
+        minPantalla = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
         maxPantalla = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
-
+        float tamañonavex = GetComponent<SpriteRenderer>().sprite.bounds.size.x * transform.localScale.x / 2;
+        float tamañonavey = GetComponent<SpriteRenderer>().bounds.size.y / 2;
         //minPantalla.x = (float)(minPantalla.x + -0.75);
-        minPantalla.x += GetComponent<SpriteRenderer>().sprite.bounds.size.x;
-            
-        maxPantalla.x = (float)(minPantalla.x + -0.75);
-        minPantalla.y = (float)(minPantalla.y + -0.75);
-        maxPantalla.y = (float)(minPantalla.y + -0.75);
-
-
-
+        minPantalla.x += tamañonavex;
+        maxPantalla.x -= tamañonavex;
+        minPantalla.y += tamañonavey;
+        maxPantalla.y -= tamañonavey;
     }
 
     // Update es llamado en cada frame del juego
     void Update()
+    {
+        MovimentNau();
+        DisparaProjectil();
+
+    }
+
+    private void MovimentNau()
     {
         // Obtenemos la dirección horizontal (izquierda/derecha) según la entrada del jugador
         float direccionIndicadaX = Input.GetAxisRaw("Horizontal");
@@ -41,10 +49,19 @@ public class NauJugador : MonoBehaviour
         // Calculamos la nueva posición sumando la dirección por la velocidad y el tiempo entre frames
         nuevoPosi = nuevoPosi + direccionIndicada * vel * Time.deltaTime;
 
-        nuevoPosi.x = Mathf.Clamp(nuevoPosi.x,minPantalla.x,maxPantalla.x);
+        nuevoPosi.x = Mathf.Clamp(nuevoPosi.x, minPantalla.x, maxPantalla.x);
         nuevoPosi.y = Mathf.Clamp(nuevoPosi.y, minPantalla.y, maxPantalla.y);
 
         //asignar la nueva posición calculada a la nave
         transform.position = nuevoPosi;
+    }
+
+    private void DisparaProjectil()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            GameObject Proyectil = Instantiate(prefabProjectil);
+            Proyectil.transform.position = transform.position;
+        }
     }
 }
