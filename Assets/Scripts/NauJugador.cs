@@ -64,4 +64,11 @@ public class NauJugador : MonoBehaviour
             Proyectil.transform.position = transform.position;
         }
     }
+    private void OnTriggerEnter2D(Collider2D objecteTocat) {
+        //Debug.Log("Hola");
+        if (objecteTocat.tag == "Numero")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

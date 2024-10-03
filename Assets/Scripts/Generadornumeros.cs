@@ -6,6 +6,7 @@ using UnityEngine;
 public class Generadornumeros : MonoBehaviour
 {
     [SerializeField] private GameObject prefabnumero;
+    
     // Start is called before the first frame update
     void Start()
     {

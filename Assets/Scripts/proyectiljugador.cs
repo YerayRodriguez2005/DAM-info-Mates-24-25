@@ -25,4 +25,11 @@ public class proyectiljugador : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void OnTriggerEnter2D(Collider2D ObjecteTocat)
+    {
+        if (ObjecteTocat.tag == "Numero")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
